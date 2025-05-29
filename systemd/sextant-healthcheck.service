@@ -1,0 +1,15 @@
+[Unit]
+Description=Sextant Healthcheck
+After=redis-server.service
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=localuser
+ExecStart=/opt/sextant/healthcheck
+WorkingDirectory=/opt/sextant
+
+[Install]
+WantedBy=multi-user.target

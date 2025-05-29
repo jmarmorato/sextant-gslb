@@ -1,0 +1,48 @@
+sextant:
+  verbose: true
+  api_port: 2112
+  fqdn: gslb.example.com
+  healthchecks:
+    frequency: 30
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    database: 0
+    password: ""
+    protocol: 2
+  soa:
+    email: admin.example.com
+    serial: 1
+    refresh: 600
+    retry: 86400
+    expiration: 1
+    ttl: 30
+
+applications:
+  - name: intranet
+    method: roundrobin
+    hostname: intranet.example.com
+    healthcheck:
+      type: http
+      path: /
+      port: 80
+    instances:
+      - host: 192.168.0.204
+      - host: 192.168.5.5
+
+regions:
+  - region: corp
+    subnets:
+      - 192.168.0.0/24
+      - 192.168.1.0/24
+  - region: colo
+    subnets:
+      - 192.168.7.0/24
+      - 192.168.8.0/24
+  - region: dr
+    subnets:
+      - 192.168.5.1/24
+  - region: vpn
+    subnets:
+      - 10.80.0.0/24
+      - 10.90.0.0/24
