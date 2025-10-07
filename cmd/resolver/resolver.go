@@ -125,10 +125,10 @@ func handleDNSQuery(w http.ResponseWriter, r *http.Request) {
 		selected = lb.Failover(healthy, app.Instances)
 	case "region-aware":
 		vLog("Using RegionAware strategy")
-		selected = lb.RegionAware(healthy, inRegion)
+		selected = lb.RegionAware(healthy, inRegion, app.Instances)
 	default:
 		vLog("Unknown strategy '%s', defaulting to RegionAware", app.Method)
-		selected = lb.RegionAware(healthy, inRegion)
+		selected = lb.RegionAware(healthy, inRegion, app.Instances)
 	}
 
 	err = lb.IncrementCount(ctx, redisClient, app.Hostname, selected)

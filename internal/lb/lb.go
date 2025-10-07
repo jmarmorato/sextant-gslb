@@ -61,11 +61,12 @@ func Failover(instances []models.Instance, configOrder []models.Instance) models
 }
 
 // RegionAware returns the least-used healthy instance in-region, falling back to global best.
-func RegionAware(global, inRegion []models.Instance) models.Instance {
+func RegionAware(global, inRegion []models.Instance, appInstances []models.Instance) models.Instance {
 	candidates := inRegion
 	if len(inRegion) == 0 {
 		//There are no in-region backends, so we fall back to all backends
-		candidates = global
+		return Failover(global, appInstances)
+		//candidates = global
 	}
 
 	//Return the least used candidate of the candidates
